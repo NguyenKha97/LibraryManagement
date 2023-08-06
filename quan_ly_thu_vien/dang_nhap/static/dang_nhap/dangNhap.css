@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Đặt chiều rộng và cao của container bằng 100% của kích thước viewport */
+.container {
+    width: 100%;
+    height: 100vh; /* 100% chiều cao của viewport */
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    flex-direction: column; /* Xếp các thành phần dọc */
+}
+
+/* Các thiết lập khác tùy chỉnh theo ý muốn */
+h1 {
+    margin-bottom: 20px;
+}
+
+form {
+    text-align: center;
+}
+
+p {
+    font-size: 21px;
+    font-weight: bold;
+}

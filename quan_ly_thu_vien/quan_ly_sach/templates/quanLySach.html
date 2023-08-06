@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý sách</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'quan_ly_sach/quanLySach.css' %}"> <!-- Liên kết đến file CSS -->
+</head>
+<body>
+    <div class="container">
+        <h2>Trang Quản Lý Sách</h2>
+        <form class="book-form">
+            <label for="ma-sach">Mã sách:</label>
+            <input type="text" id="ma-sach" name="ma-sach" required><br>
+
+            <label for="ten-sach">Tên sách:</label>
+            <input type="text" id="ten-sach" name="ten-sach" required><br>
+
+            <label for="tac-gia">Tên tác giả:</label>
+            <input type="text" id="tac-gia" name="tac-gia" required><br>
+
+            <label for="nam-xuat-ban">Năm xuất bản:</label>
+            <input type="text" id="nam-xuat-ban" name="nam-xuat-ban" required><br>
+
+            <label for="so-luong">Số lượng:</label>
+            <input type="number" id="so-luong" name="so-luong" min="0" required><br>
+
+            <label for="loai-sach">Loại sách:</label>
+            <input type="text" id="loai-sach" name="loai-sach" required><br>
+
+            <div class="button-row">
+                <button type="button">Thêm</button>
+                <button type="button">Sửa</button>
+                <button class="delete-btn" onclick="showConfirmDialog()">Xóa</button>
+                <button class="search-btn" onclick="showSearchDialog()">Tìm kiếm</button>
+            </div>
+        </form>
+
+        <table class="book-table">
+            <thead>
+                <tr>
+                    <th>Mã sách</th>
+                    <th>Tên sách</th>
+                    <th>Tên tác giả</th>
+                    <th>Loại sách</th>
+                    <th>Năm xuất bản</th>
+                    <th>Số lượng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dữ liệu sách sẽ được thêm vào đây sau khi thêm/sửa/xóa -->
+            </tbody>
+        </table>
+    </div>
+        <!-- Cửa sổ xác nhận xóa -->
+    <div class="confirm-dialog" id="confirmDialog">
+        <p>Bạn có chắc chắn muốn xóa sách này?</p>
+        <button class="confirm-btn" onclick="deleteBook()">Xóa</button>
+        <button class="cancel-btn" onclick="hideConfirmDialog()">Hủy</button>
+    </div>
+    <div class="search-dialog" id="searchDialog">
+        <h2>Tìm kiếm sách</h2>
+        <form class="search-form">
+            <div class="input-row">
+                <label for="ma-sach">Mã sách:</label>
+                <input type="text" id="ma-sach-tk" name="ma-sach">
+            </div>
+
+            <div class="input-row">
+                <label for="ten-sach">Tên sách:</label>
+                <input type="text" id="ten-sach-tk" name="ten-sach">
+            </div>
+
+            <div class="input-row">
+                <label for="tac-gia">Tên tác giả:</label>
+                <input type="text" id="tac-gia-tk" name="tac-gia">
+            </div>
+
+            <div class="input-row">
+                <label for="loai-sach">Loại sách:</label>
+                <input type="text" id="loai-sach-tk" name="loai-sach">
+            </div>
+
+            <div class="input-row">
+                <label for="nam-xuat-ban">Năm xuất bản:</label>
+                <input type="text" id="nam-xuat-ban-tk" name="nam-xuat-ban">
+            </div>
+
+            <div class="button-row">
+                <button type="button" class="search-btn" onclick="searchBook()">Tìm kiếm</button>
+                <button type="button" class="cancel-btn" onclick="hideSearchDialog()">Hủy</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        let overlay = document.createElement('div');
+        overlay.className = 'overlay';
+
+        // Hiển thị lớp nền
+        function showOverlay() {
+            overlay.style.display = 'block';
+        }
+
+        // Ẩn lớp nền
+        function hideOverlay() {
+            overlay.style.display = 'none';
+        }
+
+        // Chặn sự kiện click trên lớp nền và không cho phép lan truyền xuống các thành phần bên dưới
+        overlay.addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+
+        // Thêm lớp nền vào trang
+        document.body.appendChild(overlay);
+
+        function showConfirmDialog() {
+            showOverlay();
+            let confirmDialog = document.getElementById('confirmDialog');
+            confirmDialog.style.display = 'block';
+        }
+
+        // Ẩn cửa sổ xác nhận xóa
+        function hideConfirmDialog() {
+            hideOverlay();
+            let confirmDialog = document.getElementById('confirmDialog');
+            confirmDialog.style.display = 'none';
+        }
+
+        // Xử lý xóa sách
+        function deleteBook() {
+
+            // Thêm mã lệnh xóa sách tại đây
+            console.log('Đã xóa sách.'); // Ví dụ: Hiển thị thông báo xóa sách (để bạn kiểm tra)
+            hideConfirmDialog(); // Ẩn cửa sổ xác nhận xóa sau khi xử lý xóa sách
+        }
+
+        function showSearchDialog() {
+            showOverlay();
+            let searchDialog = document.getElementById('searchDialog');
+            searchDialog.style.display = 'block';
+        }
+
+        // Ẩn cửa sổ tìm
+        function hideSearchDialog() {
+            hideOverlay();
+            let searchDialog = document.getElementById('searchDialog');
+            searchDialog.style.display = 'none';
+        }
+
+        // Xử lý tìm sách
+        function searchBook() {
+            // Thêm mã lệnh tìm sách tại đây
+            console.log('Đã tìm thấy sách.'); // Ví dụ: Hiển thị thông báo tìm thấy sách (để bạn kiểm tra)
+        }
+    </script>
+</body>
+</html>

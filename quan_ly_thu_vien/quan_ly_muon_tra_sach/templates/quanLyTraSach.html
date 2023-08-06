@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý mượn trả sách</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'quan_ly_doc_gia/quanLyTraSach.css' %}"> <!-- Liên kết đến file CSS -->
+</head>
+<body>
+    <div class="container">
+        <h1>Quản lý mượn trả sách</h1>
+        <div class="options">
+            <button onclick="showMuonSach()">Quản lý mượn sách</button>
+            <button onclick="showTraSach()">Quản lý trả sách</button>
+            <button onclick="">Thống Kê Sách</button>
+        </div>
+        <h2>Thông tin sách đang được mượn</h2>
+            <div class="input-row">
+                <label for="ma-sach">Mã sách:</label>
+                <input type="text" id="ma-sach" name="ma-sach">
+                <button onclick="timKiemSach()">Tìm kiếm</button>
+            </div>
+            <table class="nguoi-dung-muon-sach">
+                <thead>
+                    <tr>
+                        <th>Mã sách</th>
+                        <th>Mã độc giả</th>
+                        <th>Số lượng</th>
+                        <th>Ngày mượn</th>
+                        <th>Ngày hẹn trả</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dữ liệu sách mượn sẽ được thêm vào đây sau khi thêm sách -->
+                </tbody>
+            </table>
+        <div class="muon-sach-form">
+            <h2>Độc giả</h2>
+            <div class="input-row">
+                <label for="ma-doc-gia">Mã độc giả:</label>
+                <input type="text" id="ma-doc-gia" name="ma-doc-gia">
+                <button onclick="timKiemDocGia()">Tìm kiếm</button>
+            </div>
+            <div class="thong-tin-doc-gia">
+                <p>Tên độc giả: <span id="ten-doc-gia"></span></p>
+                <p>Ngày sinh: <span id="ngay-sinh-doc-gia"></span></p>
+                <p>Số điện thoại: <span id="so-dien-thoai-doc-gia"></span></p>
+                <p>Ngày hết hạn thẻ: <span id="ngay-het-han-doc-gia"></span></p>
+            </div>
+            <table class="nguoi-dung-muon-sach">
+                <thead>
+                    <tr>
+                        <th>Mã sách</th>
+                        <th>Tên sách</th>
+                        <th>Số lượng</th>
+                        <th>Ngày mượn</th>
+                        <th>Ngày hẹn trả</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dữ liệu sách mượn sẽ được thêm vào đây sau khi thêm sách -->
+                </tbody>
+            </table>
+
+            <div class="action-buttons">
+                <button class="tra-btn" onclick="traSach()">Trả</button>
+                <button class="huy-btn" onclick="huy()">Hủy</button>
+            </div>
+        </div>
+
+        <!-- Thêm phần quản lý trả sách tại đây (tương tự như phần quản lý mượn sách) -->
+
+    </div>
+
+    <script>
+        // Các hàm xử lý tương ứng với yêu cầu của bạn sẽ được triển khai ở đây.
+    </script>
+</body>
+</html>

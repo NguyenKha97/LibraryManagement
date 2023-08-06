@@ -1,0 +1,160 @@
+/* Reset các margin và padding của thẻ <body> và các thẻ block khác */
+body, div {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Định dạng container */
+.container {
+    max-width: 800px;
+    margin: 0 auto; /* Căn giữa theo chiều ngang */
+    padding: 20px;
+}
+
+/* Định dạng tiêu đề form */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Định dạng form */
+.reader-form {
+    display: flex;
+    flex-direction: column; /* Xếp các thành phần dọc */
+    align-items: center; /* Căn giữa theo chiều ngang */
+}
+
+/* Định dạng mỗi trường nhập */
+.input-row {
+    display: flex;
+    align-items: flex-start; /* Căn đầu các thành phần theo chiều dọc */
+    margin-bottom: 10px;
+}
+
+.input-row label {
+    width: 150px; /* Độ rộng của label */
+    margin-right: 10px; /* Khoảng cách giữa label và input */
+    text-align: left; /* Căn trái cho label */
+}
+
+.input-row input[type="text"],
+.input-row input[type="date"],
+.input-row input[type="tel"] {
+    border: 1px solid #ccc; /* Thêm border cho trường nhập */
+    padding: 8px;
+    width: 200px;
+}
+
+/* Định dạng nút */
+.button-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button-row button {
+    margin: 0 5px;
+    padding: 12px 24px; /* Kích thước nút */
+    font-size: 18px; /* Cỡ chữ */
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+/* Định dạng bảng hiển thị danh sách độc giả */
+.reader-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.reader-table th, .reader-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd; /* Thêm border cho phân biệt các cột */
+}
+
+.reader-table th:first-child,
+.reader-table td:first-child {
+    border-left: none; /* Loại bỏ border bên trái của cột đầu tiên */
+}
+
+.reader-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+    font-weight: bold;
+}
+
+
+/* Định dạng nút xóa */
+.delete-btn {
+    margin-top: 10px;
+    padding: 12px 24px; /* Kích thước nút */
+    font-size: 18px; /* Cỡ chữ */
+    border: none;
+    background-color: #f44336; /* Màu đỏ */
+    color: white;
+    cursor: pointer;
+}
+
+/* Định dạng cửa sổ xác nhận xóa */
+.confirm-dialog, .search-dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.confirm-dialog p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.confirm-dialog button {
+    margin: 0 5px;
+    padding: 12px 24px; /* Kích thước nút */
+    font-size: 18px; /* Cỡ chữ */
+    border: none;
+    cursor: pointer;
+}
+
+.confirm-btn {
+    background-color: #f44336; /* Màu đỏ */
+    color: white;
+}
+
+
+.cancel-btn {
+    background-color: #4CAF50; /* Màu xanh lá cây */
+    color: white;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1;
+}
+
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

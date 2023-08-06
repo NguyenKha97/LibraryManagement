@@ -1,0 +1,96 @@
+/* Reset các margin và padding của thẻ <body> và các thẻ block khác */
+body, div {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Định dạng container */
+.container {
+    max-width: 800px;
+    margin: 0 auto; /* Căn giữa theo chiều ngang */
+    padding: 20px;
+}
+
+/* Định dạng tiêu đề */
+h1, h2 {
+    text-align: center;
+}
+
+/* Định dạng form */
+.reader-form {
+    display: flex;
+    flex-direction: column; /* Xếp các thành phần dọc */
+    align-items: center; /* Căn giữa theo chiều ngang */
+}
+
+/* Định dạng mỗi trường nhập */
+.input-row {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều ngang */
+    margin-bottom: 10px;
+}
+
+.input-row label {
+    width: 100px; /* Độ rộng của label */
+    margin-right: 10px; /* Khoảng cách giữa label và input */
+}
+
+.input-row input {
+    width: 300px; /* Độ rộng của input */
+}
+
+/* Định dạng nút */
+.button-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button-row button {
+    margin: 0 5px;
+    padding: 12px 24px; /* Kích thước nút */
+    font-size: 18px; /* Cỡ chữ */
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+/* Định dạng bảng danh sách sách mượn */
+.nguoi-dung-muon-sach {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.nguoi-dung-muon-sach th,
+.nguoi-dung-muon-sach td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.nguoi-dung-muon-sach th {
+    background-color: #f2f2f2;
+}
+
+.nguoi-dung-muon-sach tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Định dạng các nút mượn và hủy */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.action-buttons button {
+    margin: 0 5px;
+    padding: 12px 24px; /* Kích thước nút */
+    font-size: 18px; /* Cỡ chữ */
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}

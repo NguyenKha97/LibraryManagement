@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý độc giả</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'quan_ly_doc_gia/quanLyDocGia.css' %}"> <!-- Liên kết đến file CSS -->
+</head>
+<body>
+    <div class="container">
+        <div class="container">
+            <button class="back-btn" onclick="goBack()">Back</button>
+            <!-- Rest of your content here -->
+        </div>
+        <h2>Trang Quản Lý Độc Giả</h2>
+        <form class="reader-form">
+            <div class="input-row">
+                <label for="ma-doc-gia">Mã độc giả:</label>
+                <input type="text" id="ma-doc-gia" name="ma-doc-gia" required>
+            </div>
+
+            <div class="input-row">
+                <label for="ten-doc-gia">Tên độc giả:</label>
+                <input type="text" id="ten-doc-gia" name="ten-doc-gia" required>
+            </div>
+
+            <div class="input-row">
+                <label for="ngay-sinh">Ngày sinh:</label>
+                <input type="date" id="ngay-sinh" name="ngay-sinh" required>
+            </div>
+
+            <div class="input-row">
+                <label for="so-dien-thoai">Số điện thoại:</label>
+                <input type="tel" id="so-dien-thoai" name="so-dien-thoai" required>
+            </div>
+
+            <div class="input-row">
+                <label for="ngay-tao-the">Ngày tạo thẻ:</label>
+                <input type="date" id="ngay-tao-the" name="ngay-tao-the" required>
+            </div>
+
+            <div class="input-row">
+                <label for="ngay-het-han">Ngày hết hạn:</label>
+                <input type="date" id="ngay-het-han" name="ngay-het-han" required>
+            </div>
+
+            <div class="input-row">
+                <label for="dia-chi">Địa chỉ:</label>
+                <input type="text" id="dia-chi" name="dia-chi" required>
+            </div>
+
+            <div class="button-row">
+                <button type="button" class="add-btn">Thêm</button>
+                <button type="button" class="edit-btn">Sửa</button>
+                <button class="delete-btn" onclick="showConfirmDialog()">Xóa</button>
+                <button class="search-btn" onclick="showSearchDialog()">Tìm kiếm</button>
+            </div>
+        </form>
+
+        <table class="reader-table">
+            <thead>
+                <tr>
+                    <th>Mã độc giả</th>
+                    <th>Tên độc giả</th>
+                    <th>Ngày sinh</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Ngày đăng ký</th>
+                    <th>Ngày hết hạn</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dữ liệu độc giả sẽ được thêm vào đây sau khi thêm/sửa/xóa -->
+            </tbody>
+        </table>
+    </div>
+        <!-- Cửa sổ xác nhận xóa -->
+    <div class="confirm-dialog" id="confirmDialog">
+        <p>Bạn có chắc chắn muốn xóa sách này?</p>
+        <button class="confirm-btn" onclick="deleteBook()">Xóa</button>
+        <button class="cancel-btn" onclick="hideConfirmDialog()">Hủy</button>
+    </div>
+    <div class="search-dialog" id="searchDialog">
+        <h2>Tìm kiếm độc giả</h2>
+        <form class="search-form">
+            <div class="input-row">
+                <label for="ma-doc-gia">Mã độc giả:</label>
+                <input type="text" id="ma-doc-gia-tk" name="ma-doc-gia">
+            </div>
+
+            <div class="input-row">
+                <label for="ten-doc-gia">Tên độc giả:</label>
+                <input type="text" id="ten-doc-gia-tk" name="ten-doc-gia">
+            </div>
+
+            <div class="input-row">
+                <label for="ngay-sinh">Ngày sinh:</label>
+                <input type="date" id="ngay-sinh-tk" name="ngay-sinh">
+            </div>
+
+            <div class="input-row">
+                <label for="so-dien-thoai">Số điện thoại:</label>
+                <input type="tel" id="so-dien-thoai-tk" name="so-dien-thoai">
+            </div>
+
+            <div class="button-row">
+                <button type="button" class="search-btn" onclick="searchReader()">Tìm kiếm</button>
+                <button type="button" class="cancel-btn" onclick="hideSearchDialog()">Hủy</button>
+            </div>
+        </form>
+    </div>
+    <script>
+
+        function goBack() {
+            // Replace 'menu.html' with the actual path of your menu page
+            window.location.href = "../../menu/templates/menu.html";
+        }
+
+        function getCurrentDate() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Set the value of "Ngày tạo thẻ" field to the current date
+        document.addEventListener('DOMContentLoaded', function () {
+            const ngayTaoTheInput = document.getElementById('ngay-tao-the');
+            ngayTaoTheInput.value = getCurrentDate();
+        });
+
+        let overlay = document.createElement('div');
+        overlay.className = 'overlay';
+
+        // Hiển thị lớp nền
+        function showOverlay() {
+            overlay.style.display = 'block';
+        }
+
+        // Ẩn lớp nền
+        function hideOverlay() {
+            overlay.style.display = 'none';
+        }
+
+        // Chặn sự kiện click trên lớp nền và không cho phép lan truyền xuống các thành phần bên dưới
+        overlay.addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+
+        // Thêm lớp nền vào trang
+        document.body.appendChild(overlay);
+
+        function showConfirmDialog() {
+            showOverlay();
+            let confirmDialog = document.getElementById('confirmDialog');
+            confirmDialog.style.display = 'block';
+        }
+
+        // Ẩn cửa sổ xác nhận xóa
+        function hideConfirmDialog() {
+            hideOverlay();
+            let confirmDialog = document.getElementById('confirmDialog');
+            confirmDialog.style.display = 'none';
+        }
+
+        // Xử lý xóa sách
+        function deleteBook() {
+            // Thêm mã lệnh xóa sách tại đây
+            console.log('Đã xóa sách.'); // Ví dụ: Hiển thị thông báo xóa sách (để bạn kiểm tra)
+            hideConfirmDialog(); // Ẩn cửa sổ xác nhận xóa sau khi xử lý xóa sách
+        }
+
+        function showSearchDialog() {
+            showOverlay();
+            let searchDialog = document.getElementById('searchDialog');
+            searchDialog.style.display = 'block';
+        }
+
+        // Ẩn cửa sổ tìm
+        function hideSearchDialog() {
+            hideOverlay();
+            let searchDialog = document.getElementById('searchDialog');
+            searchDialog.style.display = 'none';
+        }
+
+        // Xử lý tìm sách
+        function searchReader() {
+            // Thêm mã lệnh tìm sách tại đây
+            console.log('Đã tìm thấy sách.'); // Ví dụ: Hiển thị thông báo tìm thấy sách (để bạn kiểm tra)
+        }
+    </script>
+</body>
+</html>

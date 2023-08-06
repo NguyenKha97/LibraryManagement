@@ -1,0 +1,5 @@
+# Bỏ qua các file tạm thời
+*.tmp
+
+# Bỏ qua các thư mục môi trường ảo (ví dụ: venv)
+venv/

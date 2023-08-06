@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'menu/menu.css' %}"> <!-- Liên kết đến file CSS -->
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="box">
+                <button type="submit" name="button" value="sach">Quản lý sách</button>
+            </div>
+            <div class="box">
+                <button type="submit" name="button" value="docgia">Quản lý độc giả</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="box">
+                <button type="submit" name="button" value="muontra">Quản lý mượn - trả</button>
+            </div>
+            <div class="box">
+                <button type="submit" name="button" value="dangxuat">Đăng xuất</button>
+            </div>
+        </div>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+/* Reset các margin và padding của thẻ <body> và các thẻ block khác */
+body, div {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Định dạng các ô */
+.box {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    height: 100px; /* Chiều cao của mỗi ô */
+}
+
+/* Định dạng các button */
+button {
+    padding: 20px 40px; /* Kích thước nút */
+    font-size: 18px; /* Cỡ chữ */
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+/* Hiệu ứng khi di chuột vào button */
+button:hover {
+    background-color: #45a049;
+}
