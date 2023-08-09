@@ -80,8 +80,7 @@ h2 {
 }
 
 /* Định dạng nút xóa */
-.delete-btn {
-    margin-top: 10px;
+.button-row .delete-btn {
     padding: 12px 24px; /* Kích thước nút */
     font-size: 18px; /* Cỡ chữ */
     border: none;
@@ -126,6 +125,16 @@ h2 {
     color: white;
 }
 
+.back-btn {
+    background-color: #4CAF50; /* Màu xanh lá cây */
+    color: white;
+    margin: 0 5px;
+    padding: 12px 24px; /* Kích thước nút */
+    font-size: 18px; /* Cỡ chữ */
+    border: none;
+    cursor: pointer;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -135,4 +144,16 @@ h2 {
     background-color: rgba(0, 0, 0, 0.5);
     display: none;
     z-index: 1;
+}
+
+/* Khi di chuột vào dòng, thay đổi màu nền */
+.search-dialog tbody tr:hover {
+    background-color: yellow; /* Màu nền khi hover */
+    cursor: pointer; /* Hiển thị biểu tượng con trỏ khi hover */
+}
+
+/* Thêm hiệu ứng transition cho màu nền */
+.search-dialog tbody tr {
+    background-color: white; /* Màu nền ban đầu */
+    transition: background-color 0.3s ease; /* Hiệu ứng mượt khi hover */
 }

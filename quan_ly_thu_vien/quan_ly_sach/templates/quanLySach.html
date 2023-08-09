@@ -8,31 +8,12 @@
 </head>
 <body>
     <div class="container">
+        <button class="back-btn" onclick="goBack()">Back</button>
+
         <h2>Trang Quản Lý Sách</h2>
-        <form class="book-form">
-            <label for="ma-sach">Mã sách:</label>
-            <input type="text" id="ma-sach" name="ma-sach" required><br>
-
-            <label for="ten-sach">Tên sách:</label>
-            <input type="text" id="ten-sach" name="ten-sach" required><br>
-
-            <label for="tac-gia">Tên tác giả:</label>
-            <input type="text" id="tac-gia" name="tac-gia" required><br>
-
-            <label for="nam-xuat-ban">Năm xuất bản:</label>
-            <input type="text" id="nam-xuat-ban" name="nam-xuat-ban" required><br>
-
-            <label for="so-luong">Số lượng:</label>
-            <input type="number" id="so-luong" name="so-luong" min="0" required><br>
-
-            <label for="loai-sach">Loại sách:</label>
-            <input type="text" id="loai-sach" name="loai-sach" required><br>
-
             <div class="button-row">
-                <button type="button">Thêm</button>
-                <button type="button">Sửa</button>
-                <button class="delete-btn" onclick="showConfirmDialog()">Xóa</button>
-                <button class="search-btn" onclick="showSearchDialog()">Tìm kiếm</button>
+                <button type="button" onclick="show('addDialog')">Thêm</button>
+                <button class="search-btn" onclick="show('searchDialog')">Tìm kiếm</button>
             </div>
         </form>
 
@@ -49,6 +30,18 @@
             </thead>
             <tbody>
                 <!-- Dữ liệu sách sẽ được thêm vào đây sau khi thêm/sửa/xóa -->
+                {% for book in books %}
+                <tr data-ma_sach="{{ book.ma_sach }}" data-ten_sach="{{ book.ten_sach }}" data-ten_tac_gia="{{ book.ten_tac_gia }}" data-loai_sach="{{ book.loai_sach }}" data-nam_xuat_ban="{{ book.nam_xuat_ban }}" data-so_luong="{{ book.so_luong }}">
+                    <td>{{ book.ma_sach }}</td>
+                    <td>{{ book.ten_sach }}</td>
+                    <td>{{ book.ten_tac_gia }}</td>
+                    <td>
+                        {{ book.loai_sach }}
+                    </td>
+                    <td>{{ book.nam_xuat_ban }}</td>
+                    <td>{{ book.so_luong }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
@@ -60,39 +53,80 @@
     </div>
     <div class="search-dialog" id="searchDialog">
         <h2>Tìm kiếm sách</h2>
-        <form class="search-form">
+        <form class="search-form" id="searchForm" action="{% url 'search_sach' %}">
             <div class="input-row">
                 <label for="ma-sach">Mã sách:</label>
-                <input type="text" id="ma-sach-tk" name="ma-sach">
+                <input type="text" id="ma-sach" name="ma-sach">
             </div>
 
             <div class="input-row">
                 <label for="ten-sach">Tên sách:</label>
-                <input type="text" id="ten-sach-tk" name="ten-sach">
+                <input type="text" id="ten-sach" name="ten-sach">
             </div>
 
             <div class="input-row">
                 <label for="tac-gia">Tên tác giả:</label>
-                <input type="text" id="tac-gia-tk" name="tac-gia">
+                <input type="text" id="tac-gia" name="tac-gia">
             </div>
 
             <div class="input-row">
                 <label for="loai-sach">Loại sách:</label>
-                <input type="text" id="loai-sach-tk" name="loai-sach">
+                <input type="text" id="loai-sach" name="loai-sach">
             </div>
 
             <div class="input-row">
                 <label for="nam-xuat-ban">Năm xuất bản:</label>
-                <input type="text" id="nam-xuat-ban-tk" name="nam-xuat-ban">
+                <input type="text" id="nam-xuat-ban" name="nam-xuat-ban">
             </div>
 
             <div class="button-row">
-                <button type="button" class="search-btn" onclick="searchBook()">Tìm kiếm</button>
-                <button type="button" class="cancel-btn" onclick="hideSearchDialog()">Hủy</button>
+                <button type="submit" class="search-btn" onclick="searchBook()">Tìm kiếm</button>
+                <button type="button" class="cancel-btn" onclick="hide('searchDialog')">Hủy</button>
+            </div>
+        </form>
+    </div>
+    <div class="search-dialog" id="addDialog">
+        <h2>Thêm sách</h2>
+        <form class="search-form" method="post"  action="{% url 'add_sach' %}">
+            {% csrf_token %}
+            {{ addForm.as_p }}
+            <div class="button-row">
+                <button type="submit" class="search-btn">Thêm</button>
+                <button type="button" class="cancel-btn" onclick="hide('addDialog')">Hủy</button>
+            </div>
+        </form>
+    </div>
+    <div class="search-dialog" id="infoDialog">
+        <h2>Thông tin sách</h2>
+        <form class="search-form" method="post" id="updateForm" action="{% url 'update_sach' %}">
+            {% csrf_token %}
+            {{ updateForm.as_p }}
+            <div class="button-row">
+                <button type="submit" class="search-btn">Cập nhật</button>
+                <button type="button" class="delete-btn" onclick="showConfirmDialog()">Xóa</button>
+                <button type="button" class="cancel-btn" onclick="hide('infoDialog')">Hủy</button>
+            </div>
+        </form>
+    </div>
+
+     <div class="search-dialog" id="deleteDialog">
+        <h2>Xóa sách</h2>
+        <form class="search-form" method="post"  action="{% url 'delete_sach' %}">
+            <p>Bạn có chắc chắn muốn xóa sách này không</p>
+            {% csrf_token %}
+            <input type="hidden" name="ma_sach" id="deleteMaSach">
+            <div class="button-row">
+                <button type="submit" class="delete-btn">Xóa</button>
+                <button type="button" class="cancel-btn" onclick="hide('deleteDialog')">Hủy</button>
             </div>
         </form>
     </div>
     <script>
+        function goBack() {
+            // Replace 'menu.html' with the actual path of your menu page
+            window.location.href = "../../menu/menu/";
+        }
+
         let overlay = document.createElement('div');
         overlay.className = 'overlay';
 
@@ -115,10 +149,20 @@
         document.body.appendChild(overlay);
 
         function showConfirmDialog() {
+            hide('infoDialog')
             showOverlay();
-            let confirmDialog = document.getElementById('confirmDialog');
-            confirmDialog.style.display = 'block';
+            const maSachValue = document.querySelector("#ma_sach").value;
+            const deleteMaSachField = document.querySelector("#deleteMaSach");
+            deleteMaSachField.value = maSachValue;
+            let deleteDialog = document.getElementById('deleteDialog');
+            deleteDialog.style.display = 'block';
         }
+        function show(strId) {
+            showOverlay();
+            let dialog = document.getElementById(strId);
+            dialog.style.display = 'block';
+        }
+
 
         // Ẩn cửa sổ xác nhận xóa
         function hideConfirmDialog() {
@@ -148,11 +192,36 @@
             searchDialog.style.display = 'none';
         }
 
+        function hide(strId) {
+            hideOverlay();
+            let dialog = document.getElementById(strId);
+            dialog.style.display = 'none';
+        }
+
         // Xử lý tìm sách
         function searchBook() {
             // Thêm mã lệnh tìm sách tại đây
             console.log('Đã tìm thấy sách.'); // Ví dụ: Hiển thị thông báo tìm thấy sách (để bạn kiểm tra)
         }
+
+
+        // bắt sự kiện click vào từng dòng
+        document.addEventListener("DOMContentLoaded", function() {
+            const rows = document.querySelectorAll("tbody tr");
+            const form = document.querySelector("#updateForm");
+            rows.forEach(row => {
+                row.addEventListener("click", function(event) {
+                    form.querySelector("#ma_sach").value = row.dataset.ma_sach;
+                    form.querySelector("#ten_sach").value = row.dataset.ten_sach;
+                    form.querySelector("#ten_tac_gia").value = row.dataset.ten_tac_gia;
+                    form.querySelector("#loai_sach").value = row.dataset.loai_sach;
+                    form.querySelector("#nam_xuat_ban").value = row.dataset.nam_xuat_ban;
+                    form.querySelector("#so_luong").value = row.dataset.so_luong;
+                    show('infoDialog')
+                });
+            });
+        });
+
     </script>
 </body>
 </html>
