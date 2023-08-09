@@ -15,7 +15,6 @@
                 <button type="button" onclick="show('addDialog')">Thêm</button>
                 <button class="search-btn" onclick="show('searchDialog')">Tìm kiếm</button>
             </div>
-        </form>
 
         <table class="book-table">
             <thead>
@@ -36,7 +35,19 @@
                     <td>{{ book.ten_sach }}</td>
                     <td>{{ book.ten_tac_gia }}</td>
                     <td>
-                        {{ book.loai_sach }}
+                        {% if book.loai_sach == 'TRUYEN' %}
+                            Truyện
+                        {% elif book.loai_sach == 'KY_NANG' %}
+                            Kỹ năng
+                        {% elif book.loai_sach == 'KIEN_THUC' %}
+                            Kiến thức
+                        {% elif book.loai_sach == 'VAN_HOC' %}
+                            Văn học
+                        {% elif book.loai_sach == 'KHOA_HOC' %}
+                            Khoa học
+                        {% else %}
+                            Khác
+                        {% endif %}
                     </td>
                     <td>{{ book.nam_xuat_ban }}</td>
                     <td>{{ book.so_luong }}</td>
@@ -44,12 +55,6 @@
                 {% endfor %}
             </tbody>
         </table>
-    </div>
-        <!-- Cửa sổ xác nhận xóa -->
-    <div class="confirm-dialog" id="confirmDialog">
-        <p>Bạn có chắc chắn muốn xóa sách này?</p>
-        <button class="confirm-btn" onclick="deleteBook()">Xóa</button>
-        <button class="cancel-btn" onclick="hideConfirmDialog()">Hủy</button>
     </div>
     <div class="search-dialog" id="searchDialog">
         <h2>Tìm kiếm sách</h2>
@@ -80,7 +85,7 @@
             </div>
 
             <div class="button-row">
-                <button type="submit" class="search-btn" onclick="searchBook()">Tìm kiếm</button>
+                <button type="submit" class="search-btn">Tìm kiếm</button>
                 <button type="button" class="cancel-btn" onclick="hide('searchDialog')">Hủy</button>
             </div>
         </form>
@@ -157,39 +162,11 @@
             let deleteDialog = document.getElementById('deleteDialog');
             deleteDialog.style.display = 'block';
         }
+
         function show(strId) {
             showOverlay();
             let dialog = document.getElementById(strId);
             dialog.style.display = 'block';
-        }
-
-
-        // Ẩn cửa sổ xác nhận xóa
-        function hideConfirmDialog() {
-            hideOverlay();
-            let confirmDialog = document.getElementById('confirmDialog');
-            confirmDialog.style.display = 'none';
-        }
-
-        // Xử lý xóa sách
-        function deleteBook() {
-
-            // Thêm mã lệnh xóa sách tại đây
-            console.log('Đã xóa sách.'); // Ví dụ: Hiển thị thông báo xóa sách (để bạn kiểm tra)
-            hideConfirmDialog(); // Ẩn cửa sổ xác nhận xóa sau khi xử lý xóa sách
-        }
-
-        function showSearchDialog() {
-            showOverlay();
-            let searchDialog = document.getElementById('searchDialog');
-            searchDialog.style.display = 'block';
-        }
-
-        // Ẩn cửa sổ tìm
-        function hideSearchDialog() {
-            hideOverlay();
-            let searchDialog = document.getElementById('searchDialog');
-            searchDialog.style.display = 'none';
         }
 
         function hide(strId) {
@@ -197,13 +174,6 @@
             let dialog = document.getElementById(strId);
             dialog.style.display = 'none';
         }
-
-        // Xử lý tìm sách
-        function searchBook() {
-            // Thêm mã lệnh tìm sách tại đây
-            console.log('Đã tìm thấy sách.'); // Ví dụ: Hiển thị thông báo tìm thấy sách (để bạn kiểm tra)
-        }
-
 
         // bắt sự kiện click vào từng dòng
         document.addEventListener("DOMContentLoaded", function() {

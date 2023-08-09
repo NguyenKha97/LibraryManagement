@@ -32,22 +32,26 @@ def update_sach(request):
 		try:
 			if updateForm.is_valid():
 				updateForm.save()
+			else:
+				print(updateForm.errors)
 		except not sach:
-			return HttpResponse("Tài khoản không tồn tại")
+			return HttpResponse("Sách không tồn tại")
 	return redirect('quan_ly_sach')
 
 def add_sach(request):
 	if request.method == 'POST':
 		addForm = AddBook(request.POST)
 		if addForm.is_valid():
-			addForm.save()  # Lưu dữ liệu vào database
+			addForm.save()
+		else:
+			print(addForm.errors)
 	return redirect('quan_ly_sach')
 
 def delete_sach(request):
 	if request.method == 'POST':
 		ma_sach = request.POST.get('ma_sach')
 		sach = Sach.objects.get(ma_sach=ma_sach)
-		print(sach)
+		print("delete::: " + str(sach))
 		sach.delete()
 
 	return redirect('quan_ly_sach')

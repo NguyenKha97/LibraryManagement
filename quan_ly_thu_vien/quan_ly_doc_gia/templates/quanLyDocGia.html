@@ -8,54 +8,13 @@
 </head>
 <body>
     <div class="container">
-        <div class="container">
-            <button class="back-btn" onclick="goBack()">Back</button>
-            <!-- Rest of your content here -->
-        </div>
+        <button class="back-btn" onclick="goBack()">Back</button>
+
         <h2>Trang Quản Lý Độc Giả</h2>
-        <form class="reader-form">
-            <div class="input-row">
-                <label for="ma-doc-gia">Mã độc giả:</label>
-                <input type="text" id="ma-doc-gia" name="ma-doc-gia" required>
-            </div>
-
-            <div class="input-row">
-                <label for="ten-doc-gia">Tên độc giả:</label>
-                <input type="text" id="ten-doc-gia" name="ten-doc-gia" required>
-            </div>
-
-            <div class="input-row">
-                <label for="ngay-sinh">Ngày sinh:</label>
-                <input type="date" id="ngay-sinh" name="ngay-sinh" required>
-            </div>
-
-            <div class="input-row">
-                <label for="so-dien-thoai">Số điện thoại:</label>
-                <input type="tel" id="so-dien-thoai" name="so-dien-thoai" required>
-            </div>
-
-            <div class="input-row">
-                <label for="ngay-tao-the">Ngày tạo thẻ:</label>
-                <input type="date" id="ngay-tao-the" name="ngay-tao-the" required>
-            </div>
-
-            <div class="input-row">
-                <label for="ngay-het-han">Ngày hết hạn:</label>
-                <input type="date" id="ngay-het-han" name="ngay-het-han" required>
-            </div>
-
-            <div class="input-row">
-                <label for="dia-chi">Địa chỉ:</label>
-                <input type="text" id="dia-chi" name="dia-chi" required>
-            </div>
-
             <div class="button-row">
-                <button type="button" class="add-btn">Thêm</button>
-                <button type="button" class="edit-btn">Sửa</button>
-                <button class="delete-btn" onclick="showConfirmDialog()">Xóa</button>
-                <button class="search-btn" onclick="showSearchDialog()">Tìm kiếm</button>
+                <button type="button" class="add-btn" onclick="show('addDialog')">Thêm</button>
+                <button class="search-btn" onclick="show('searchDialog')">Tìm kiếm</button>
             </div>
-        </form>
 
         <table class="reader-table">
             <thead>
@@ -71,41 +30,79 @@
             </thead>
             <tbody>
                 <!-- Dữ liệu độc giả sẽ được thêm vào đây sau khi thêm/sửa/xóa -->
+                {% for reader in readers %}
+                <tr data-ma_doc_gia="{{ reader.ma_doc_gia }}" data-ten_doc_gia="{{ reader.ten_doc_gia }}" data-ngay_sinh="{{ reader.ngay_sinh }}" data-so_dien_thoai="{{ reader.so_dien_thoai }}" data-ngay_tao_the="{{ reader.ngay_tao_the }}" data-ngay_het_han="{{ reader.ngay_het_han }}" data-dia_chi="{{ reader.dia_chi }}">
+                    <td>{{ reader.ma_doc_gia }}</td>
+                    <td>{{ reader.ten_doc_gia }}</td>
+                    <td>{{ reader.ngay_sinh|date:"Y-m-d" }}</td>
+                    <td>{{ reader.so_dien_thoai }}</td>
+                    <td>{{ reader.dia_chi }}</td>
+                    <td>{{ reader.ngay_tao_the|date:"Y-m-d" }}</td>
+                    <td>{{ reader.ngay_het_han|date:"Y-m-d" }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
-        <!-- Cửa sổ xác nhận xóa -->
-    <div class="confirm-dialog" id="confirmDialog">
-        <p>Bạn có chắc chắn muốn xóa sách này?</p>
-        <button class="confirm-btn" onclick="deleteBook()">Xóa</button>
-        <button class="cancel-btn" onclick="hideConfirmDialog()">Hủy</button>
-    </div>
     <div class="search-dialog" id="searchDialog">
         <h2>Tìm kiếm độc giả</h2>
-        <form class="search-form">
+        <form class="search-form" id="searchForm" action="{% url 'search_dg' %}">
             <div class="input-row">
                 <label for="ma-doc-gia">Mã độc giả:</label>
-                <input type="text" id="ma-doc-gia-tk" name="ma-doc-gia">
+                <input type="text" id="ma-doc-gia" name="ma-doc-gia">
             </div>
 
             <div class="input-row">
                 <label for="ten-doc-gia">Tên độc giả:</label>
-                <input type="text" id="ten-doc-gia-tk" name="ten-doc-gia">
-            </div>
-
-            <div class="input-row">
-                <label for="ngay-sinh">Ngày sinh:</label>
-                <input type="date" id="ngay-sinh-tk" name="ngay-sinh">
+                <input type="text" id="ten-doc-gia" name="ten-doc-gia">
             </div>
 
             <div class="input-row">
                 <label for="so-dien-thoai">Số điện thoại:</label>
-                <input type="tel" id="so-dien-thoai-tk" name="so-dien-thoai">
+                <input type="tel" id="so-dien-thoai" name="so-dien-thoai">
             </div>
 
             <div class="button-row">
-                <button type="button" class="search-btn" onclick="searchReader()">Tìm kiếm</button>
-                <button type="button" class="cancel-btn" onclick="hideSearchDialog()">Hủy</button>
+                <button type="submit" class="search-btn">Tìm kiếm</button>
+                <button type="button" class="cancel-btn" onclick="hide('searchDialog')">Hủy</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="search-dialog" id="addDialog">
+        <h2>Thêm Độc giả</h2>
+        <form class="search-form" method="post"  action="{% url 'add_dg' %}">
+            {% csrf_token %}
+            {{ addForm.as_p }}
+            <div class="button-row">
+                <button type="submit" class="search-btn">Thêm</button>
+                <button type="button" class="cancel-btn" onclick="hide('addDialog')">Hủy</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="search-dialog" id="infoDialog">
+        <h2>Thông tin độc giả</h2>
+        <form class="search-form" method="post" id="updateForm" action="{% url 'update_dg' %}">
+            {% csrf_token %}
+            {{ updateForm.as_p }}
+            <div class="button-row">
+                <button type="submit" class="search-btn">Cập nhật</button>
+                <button type="button" class="delete-btn" onclick="showConfirmDialog()">Xóa</button>
+                <button type="button" class="cancel-btn" onclick="hide('infoDialog')">Hủy</button>
+            </div>
+        </form>
+    </div>
+
+     <div class="search-dialog" id="deleteDialog">
+        <h2>Xóa Độc giả</h2>
+        <form class="search-form" method="post"  action="{% url 'delete_dg' %}">
+            <p>Bạn có chắc chắn muốn xóa độc giả này không</p>
+            {% csrf_token %}
+            <input type="hidden" name="ma_doc_gia" id="deleteMaDocGia">
+            <div class="button-row">
+                <button type="submit" class="delete-btn">Xóa</button>
+                <button type="button" class="cancel-btn" onclick="hide('deleteDialog')">Hủy</button>
             </div>
         </form>
     </div>
@@ -115,20 +112,6 @@
             // Replace 'menu.html' with the actual path of your menu page
             window.location.href = "../../menu/menu/";
         }
-
-        function getCurrentDate() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
-
-        // Set the value of "Ngày tạo thẻ" field to the current date
-        document.addEventListener('DOMContentLoaded', function () {
-            const ngayTaoTheInput = document.getElementById('ngay-tao-the');
-            ngayTaoTheInput.value = getCurrentDate();
-        });
 
         let overlay = document.createElement('div');
         overlay.className = 'overlay';
@@ -152,43 +135,50 @@
         document.body.appendChild(overlay);
 
         function showConfirmDialog() {
+            hide('infoDialog')
             showOverlay();
-            let confirmDialog = document.getElementById('confirmDialog');
+            const maDocGiaValue = document.querySelector("#ma_doc_gia").value;
+            const deleteMaDocGiaField = document.querySelector("#deleteMaDocGia");
+            deleteMaDocGiaField.value = maDocGiaValue;
+            let deleteDialog = document.getElementById('deleteDialog');
+            deleteDialog.style.display = 'block';
+        }
+
+        function show(strId) {
+            showOverlay();
+            let confirmDialog = document.getElementById(strId);
             confirmDialog.style.display = 'block';
         }
 
-        // Ẩn cửa sổ xác nhận xóa
-        function hideConfirmDialog() {
+        function hide(strId) {
             hideOverlay();
-            let confirmDialog = document.getElementById('confirmDialog');
+            let confirmDialog = document.getElementById(strId);
             confirmDialog.style.display = 'none';
         }
 
-        // Xử lý xóa sách
-        function deleteBook() {
-            // Thêm mã lệnh xóa sách tại đây
-            console.log('Đã xóa sách.'); // Ví dụ: Hiển thị thông báo xóa sách (để bạn kiểm tra)
-            hideConfirmDialog(); // Ẩn cửa sổ xác nhận xóa sau khi xử lý xóa sách
-        }
-
-        function showSearchDialog() {
-            showOverlay();
-            let searchDialog = document.getElementById('searchDialog');
-            searchDialog.style.display = 'block';
-        }
-
-        // Ẩn cửa sổ tìm
-        function hideSearchDialog() {
-            hideOverlay();
-            let searchDialog = document.getElementById('searchDialog');
-            searchDialog.style.display = 'none';
-        }
-
-        // Xử lý tìm sách
-        function searchReader() {
-            // Thêm mã lệnh tìm sách tại đây
-            console.log('Đã tìm thấy sách.'); // Ví dụ: Hiển thị thông báo tìm thấy sách (để bạn kiểm tra)
-        }
+        // bắt sự kiện click vào từng dòng
+        document.addEventListener("DOMContentLoaded", function() {
+            const rows = document.querySelectorAll("tbody tr");
+            const form = document.querySelector("#updateForm");
+            rows.forEach(row => {
+                row.addEventListener("click", function(event) {
+                    const ngaySinh = new Date(row.dataset.ngay_sinh);
+                    const ngayTaoThe = new Date(row.dataset.ngay_tao_the);
+                    const ngayHetHan = new Date(row.dataset.ngay_het_han);
+                    const ngaySinhFormatted = ngaySinh.toISOString().slice(0, 10);
+                    const ngayTaoTheFormatted = ngayTaoThe.toISOString().slice(0, 10);
+                    const ngayHetHanFormatted = ngayHetHan.toISOString().slice(0, 10);
+                    form.querySelector("#ma_doc_gia").value = row.dataset.ma_doc_gia;
+                    form.querySelector("#ten_doc_gia").value = row.dataset.ten_doc_gia;
+                    form.querySelector("#ngay_sinh").value = ngaySinhFormatted;
+                    form.querySelector("#so_dien_thoai").value = row.dataset.so_dien_thoai;
+                    form.querySelector("#dia_chi").value = row.dataset.dia_chi;
+                    form.querySelector("#ngay_tao_the").value = ngayTaoTheFormatted;
+                    form.querySelector("#ngay_het_han").value = ngayHetHanFormatted;
+                    show('infoDialog')
+                });
+            });
+        });
     </script>
 </body>
 </html>
