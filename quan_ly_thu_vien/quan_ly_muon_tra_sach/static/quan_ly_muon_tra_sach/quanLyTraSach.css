@@ -94,3 +94,12 @@ h1, h2 {
     color: white;
     cursor: pointer;
 }
+
+.touch tbody tr:hover {
+    background-color: mediumspringgreen;
+    cursor: pointer;
+}
+
+.touch tbody tr.selected {
+  background-color: mediumseagreen; /* Thay đổi màu nền cho dòng được chọn */
+}

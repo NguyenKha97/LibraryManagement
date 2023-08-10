@@ -20,9 +20,9 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('dang_nhap.urls')),
+    path('dang-nhap/', include('dang_nhap.urls')),
     path('menu/', include('menu.urls')),
-    path('quan_ly_doc_gia/', include('quan_ly_doc_gia.urls')),
-    path('quan_ly_muon_tra_sach/', include('quan_ly_muon_tra_sach.urls')),
-    path('quan_ly_sach/', include('quan_ly_sach.urls')),
-
+    path('quan-ly-doc-gia/', include('quan_ly_doc_gia.urls')),
+    path('quan-ly-sach/', include('quan_ly_sach.urls')),
+    path('quan-ly-muon-tra-sach/', include('quan_ly_muon_tra_sach.urls')),
 ]

@@ -94,3 +94,13 @@ h1, h2 {
     color: white;
     cursor: pointer;
 }
+
+.danh-sach-muon-sach tbody tr:hover {
+    background-color: mediumspringgreen;
+    cursor: pointer;
+}
+
+.danh-sach-muon-sach tbody tr.selected {
+  background-color: mediumseagreen; /* Thay đổi màu nền cho dòng được chọn */
+}
+

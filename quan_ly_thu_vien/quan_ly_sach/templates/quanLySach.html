@@ -9,7 +9,8 @@
 <body>
     <div class="container">
         <h2>Trang Quản Lý Sách</h2>
-        <form class="book-form">
+        <form class="book-form" method="post">
+            {% csrf_token %}
             <label for="ma-sach">Mã sách:</label>
             <input type="text" id="ma-sach" name="ma-sach" required><br>
 
@@ -22,14 +23,14 @@
             <label for="nam-xuat-ban">Năm xuất bản:</label>
             <input type="text" id="nam-xuat-ban" name="nam-xuat-ban" required><br>
 
-            <label for="so-luong">Số lượng:</label>
-            <input type="number" id="so-luong" name="so-luong" min="0" required><br>
-
             <label for="loai-sach">Loại sách:</label>
             <input type="text" id="loai-sach" name="loai-sach" required><br>
 
+            <label for="so-luong">Số lượng:</label>
+            <input type="number" id="so-luong" name="so-luong" min="0" required><br>
+
             <div class="button-row">
-                <button type="button">Thêm</button>
+                <button type="submit" name="button" value="them">Thêm</button>
                 <button type="button">Sửa</button>
                 <button class="delete-btn" onclick="showConfirmDialog()">Xóa</button>
                 <button class="search-btn" onclick="showSearchDialog()">Tìm kiếm</button>
@@ -42,13 +43,22 @@
                     <th>Mã sách</th>
                     <th>Tên sách</th>
                     <th>Tên tác giả</th>
-                    <th>Loại sách</th>
                     <th>Năm xuất bản</th>
+                    <th>Loại sách</th>
                     <th>Số lượng</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Dữ liệu sách sẽ được thêm vào đây sau khi thêm/sửa/xóa -->
+            {% for sach in new_data %}
+            <tr>
+                <td>{{ sach.ma_sach }}</td>
+                <td>{{ sach.ten_sach }}</td>
+                <td>{{ sach.tac_gia }}</td>
+                <td>{{ sach.nam_xuat_ban }}</td>
+                <td>{{ sach.loai_sach }}</td>
+                <td>{{ sach.so_luong }}</td>
+            </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>

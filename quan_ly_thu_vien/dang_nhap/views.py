@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Thuthu
-
-
 # Create your views here.
 
 
@@ -18,6 +16,7 @@ def dang_nhap_view(request):
             # Kiểm tra mật khẩu
             if user.mat_khau == password:
                 # Đăng nhập thành công, chuyển hướng đến trang menu.html
+                request.session['ma_thu_thu'] = username
                 return redirect('menu')
             else:
                 # Sai mật khẩu, trả về thông báo lỗi

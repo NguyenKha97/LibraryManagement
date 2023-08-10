@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý mượn trả sách</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'quan_ly_muon_tra_sach/quanLyTraSach.css' %}"> <!-- Liên kết đến file CSS -->
+</head>
+<body>
+<form  method="post" action="{% url 'thong_tin_muon_tra' %}">
+    {% csrf_token %}
+    <div class="container">
+        <button class="back-btn" name="button" value="back">Back</button>
+        <h1>Quản lý mượn trả sách</h1>
+
+        <div class="options-buttons">
+            <button name="button" value="ql-muon-sach"
+                    style="cursor: pointer;">Quản lý mượn sách
+            </button>
+            <button name="button" value="ql-tra-sach"
+                    style="cursor: pointer;">Quản lý trả sách
+            </button>
+            <button name="button" value="tt-muon-tra"
+                    style="background-color: #4CAF50; color: white; cursor: pointer;">Thông tin mượn trả
+            </button>
+        </div>
+        <div class="muon-tra-hom-nay">
+            <h2>Mượn trả ngày hôm nay</h2>
+            <table class="nguoi-dung-muon-sach">
+                <thead>
+                <tr>
+                    <th>Mã sách</th>
+                    <th>Mã độc giả</th>
+                    <th>Số lượng</th>
+                    <th>Ngày mượn</th>
+                    <th>Ngày trả</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for muon_tra in data_muon_tra_hom_nay %}
+                <tr>
+                    <td>{{ muon_tra.ma_sach }}</td>
+                    <td>{{ muon_tra.ma_doc_gia }}</td>
+                    <td>{{ muon_tra.so_luong }}</td>
+                    <td>{{ muon_tra.ngay_muon }}</td>
+                    <td>{{ muon_tra.ngay_tra }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Sách đang được mượn</h2>
+        <table class="nguoi-dung-muon-sach">
+            <thead>
+            <tr>
+                <th>Mã sách</th>
+                <th>Mã độc giả</th>
+                <th>Số lượng</th>
+                <th>Ngày mượn</th>
+                <th>Ngày hẹn trả</th>
+                <th>Còn lại</th>
+            </tr>
+            </thead>
+                <tbody>
+                {% for muon_tra in data_muon_sach %}
+                <tr>
+                    <td>{{ muon_tra.ma_sach }}</td>
+                    <td>{{ muon_tra.ma_doc_gia }}</td>
+                    <td>{{ muon_tra.so_luong }}</td>
+                    <td>{{ muon_tra.ngay_muon }}</td>
+                    <td>{{ muon_tra.ngay_hen_tra }}</td>
+                    {% if data_muon_sach %}
+                    <td>{{ muon_tra.con_lai }} ngày</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+
+        </table>
+        <div class="muon-sach-form">
+            <h2>Sách quá hạn trả</h2>
+            <table class="nguoi-dung-muon-sach">
+                <thead>
+                <tr>
+                    <th>Mã sách</th>
+                    <th>Mã độc giả</th>
+                    <th>Số lượng</th>
+                    <th>Ngày mượn</th>
+                    <th>Ngày hẹn trả</th>
+                    <th>Quá hạn</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for muon_tra in data_qua_han %}
+                <tr>
+                    <td>{{ muon_tra.ma_sach }}</td>
+                    <td>{{ muon_tra.ma_doc_gia }}</td>
+                    <td>{{ muon_tra.so_luong }}</td>
+                    <td>{{ muon_tra.ngay_muon }}</td>
+                    <td>{{ muon_tra.ngay_hen_tra }}</td>
+                    {% if data_qua_han %}
+                    <td>{{ muon_tra.qua_han }} ngày</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</form>
+</body>
+</html>

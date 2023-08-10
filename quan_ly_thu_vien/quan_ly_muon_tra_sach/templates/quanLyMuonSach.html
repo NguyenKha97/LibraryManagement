@@ -4,78 +4,131 @@
     <meta charset="UTF-8">
     <title>Quản lý mượn trả sách</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'quan_ly_muon_tra_sach/quanLyMuonSach.css' %}"> <!-- Liên kết đến file CSS -->
+    <link rel="stylesheet" href="{% static 'quan_ly_muon_tra_sach/quanLyMuonSach.css' %}">
+    <!-- Liên kết đến file CSS -->
 </head>
 <body>
+<form class="muon-sach-form" method="post" action="{% url 'quan_ly_muon_sach' %}">
+    {% csrf_token %}
     <div class="container">
+        <button class="back-btn" name="button" value="back">Back</button>
         <h1>Quản lý mượn trả sách</h1>
-        <div class="options">
-            <button onclick="showMuonSach()">Quản lý mượn sách</button>
-            <button onclick="showTraSach()">Quản lý trả sách</button>
-            <button onclick="">Thống Kê Sách</button>
+        <div class="options-buttons">
+            <button name="button" value="ql-muon-sach"
+                    style="background-color: #4CAF50; color: white; cursor: pointer;">Quản lý mượn sách
+            </button>
+            <button name="button" value="ql-tra-sach" style="cursor: pointer;">Quản lý trả sách</button>
+            <button name="button" value="tt-muon-tra" style="cursor: pointer;">Thông tin mượn trả</button>
+        </div>
+        <h2>Độc giả</h2>
+        <div class="input-row">
+            {% if doc_gia %}
+            <label for="ma-doc-gia1">Mã độc giả:</label>
+            <input type="text" id="ma-doc-gia1" name="ma-doc-gia" value="{{doc_gia.ma_doc_gia}}">
+            {% else %}
+            <label for="ma-doc-gia2">Mã độc giả:</label>
+            <input type="text" id="ma-doc-gia2" name="ma-doc-gia">
+            {% endif %}
+            <button type="submit" name="button" value="tim-doc-gia">Tìm kiếm</button>
+        </div>
+        <div class="thong-tin-doc-gia">
+            {% if doc_gia %}
+            <p>Tên độc giả: <span id="ten-doc-gia">{{ doc_gia.ten_doc_gia }}</span></p>
+            <p>Ngày sinh: <span id="ngay-sinh-doc-gia">{{ doc_gia.ngay_sinh }}</span></p>
+            <p>Số điện thoại: <span id="so-dien-thoai-doc-gia">{{ doc_gia.so_dien_thoai }}</span></p>
+            <p>Ngày hết hạn thẻ: <span id="ngay-het-han-doc-gia">{{ doc_gia.ngay_het_han }}</span></p>
+            {% else %}
+            <p>Không tìm thấy độc giả</p>
+            {% endif %}
         </div>
 
-        <div class="muon-sach-form">
-            <h2>Độc giả</h2>
-            <div class="input-row">
-                <label for="ma-doc-gia">Mã độc giả:</label>
-                <input type="text" id="ma-doc-gia" name="ma-doc-gia">
-                <button onclick="timKiemDocGia()">Tìm kiếm</button>
-            </div>
-            <div class="thong-tin-doc-gia">
-                <p>Tên độc giả: <span id="ten-doc-gia"></span></p>
-                <p>Ngày sinh: <span id="ngay-sinh-doc-gia"></span></p>
-                <p>Số điện thoại: <span id="so-dien-thoai-doc-gia"></span></p>
-                <p>Ngày hết hạn thẻ: <span id="ngay-het-han-doc-gia"></span></p>
-            </div>
+        <h2>Thông tin sách</h2>
+        <div class="input-row">
+            {% if sach %}
+            <label for="ma-sach1">Mã sách:</label>
+            <input type="text" id="ma-sach1" name="ma-sach" value="{{sach.ma_sach}}">
+            {% else %}
+            <label for="ma-sach2">Mã sách:</label>
+            <input type="text" id="ma-sach2" name="ma-sach">
+            {% endif %}
+            <button type="submit" name="button" value="tim-sach">Tìm kiếm</button>
+        </div>
+        <div class="thong-tin-sach">
+            {% if sach %}
+            <p>Tên sách: <span id="ten-sach">{{sach.ten_sach}}</span></p>
+            <p>Thể loại: <span id="the-loai">{{sach.loai_sach}}</span></p>
+            <p>Số lượng còn: <span id="so-luong">{{sach.so_luong_con}}</span></p>
+            <p>Tác giả: <span id="tac-gia">{{sach.tac_gia}}</span></p>
+            <p>Năm XB: <span id="nha-xb">{{sach.nam_xuat_ban}}</span></p>
+            {% else %}
+            <p>Không tìm thấy sách</p>
+            {% endif %}
+        </div>
+        {% if doc_gia and sach and sl_sach_con_lai > 0 %}
+        <label>Số lượng sách mượn: </label>
+        <input type="number" name="sl_sach_muon" min="1" max="{{sl_sach_con_lai}}" value="1">
+        <button class="them-sach-btn" name="button" value="them-sach-muon">Thêm vào danh sách mượn</button>
+        {% else %}
+        <br>
+        {% endif %}
+        <table class="danh-sach-muon-sach">
+            <thead>
+            <tr>
+                <th>Mã sách</th>
+                <th>Tên Sách</th>
+                <th>Tác giả</th>
+                <th>Năm XB</th>
+                <th>Số lượng mượn</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sach_muon in list_sach_muon %}
+            <tr>
+                <td>{{ sach_muon.ma_sach }}</td>
+                <td>{{ sach_muon.ten_sach }}</td>
+                <td>{{ sach_muon.tac_gia }}</td>
+                <td>{{ sach_muon.nam_xuat_ban }}</td>
+                <td>{{ sach_muon.so_luong_muon }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-            <h2>Thông tin sách</h2>
-            <div class="input-row">
-                <label for="ma-sach">Mã sách:</label>
-                <input type="text" id="ma-sach" name="ma-sach">
-                <button onclick="timKiemSach()">Tìm kiếm</button>
-            </div>
-            <div class="thong-tin-sach">
-                <p>Tên sách: <span id="ten-sach"></span></p>
-                <p>Thể loại: <span id="the-loai"></span></p>
-                <p>Số lượng: <span id="so-luong"></span></p>
-                <p>Tác giả: <span id="tac-gia"></span></p>
-                <p>Nhà XB: <span id="nha-xb"></span></p>
-                <p>Năm XB: <span id="nam-xb"></span></p>
-            </div>
-            <label>Số lượng sách mượn: </label>
-            <input type="number", min="1">
-            <button class="them-sach-btn" onclick="themSach()">Thêm vào danh sách mượn</button>
-
-            <table class="danh-sach-muon-sach">
-                <thead>
-                    <tr>
-                        <th>Mã sách</th>
-                        <th>Tên Sách</th>
-                        <th>Tác giả</th>
-                        <th>Năm XB</th>
-                        <th>Số lượng</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dữ liệu sách mượn sẽ được thêm vào đây sau khi thêm sách -->
-                </tbody>
-            </table>
-
-            <div class="action-buttons">
-                <button class="muon-btn" onclick="muonSach()">Mượn</button>
-                <button class="huy-btn" onclick="huy()">Hủy</button>
-                <button class="thay-doi-btn" onclick="huy()">Thay đổi SL</button>
-                <button class="xoa-btn" onclick="huy()">Xóa</button>
-            </div>
+        <div class="action-buttons">
+            {% if doc_gia and list_sach_muon %}
+            <button class="muon-btn" name="button" value="muon">Mượn</button>
+            {% endif %}
+            <button class="huy-btn" name="button" value="huy">Hủy</button>
+            {% if doc_gia and list_sach_muon%}
+            <button class="xoa-btn" name="button" value="xoa" id="xoa-btn">Xóa</button>
+            {% endif %}
+            <input type="hidden" name="ma-sach-xoa" id="hidden-ma-sach">
+            <input type="hidden" name="sl-sach-xoa" id="hidden-sl-sach">
         </div>
 
-        <!-- Thêm phần quản lý trả sách tại đây (tương tự như phần quản lý mượn sách) -->
 
     </div>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const rows = document.querySelectorAll('.danh-sach-muon-sach tbody tr');
+        //const xoaBtn = document.getElementById('xoa-btn'); // Lấy tham chiếu đến nút Xóa
 
-    <script>
-        // Các hàm xử lý tương ứng với yêu cầu của bạn sẽ được triển khai ở đây.
-    </script>
+        rows.forEach(row => {
+            row.addEventListener('click', function () {
+                // Xử lý khi dòng được chọn
+                rows.forEach(r => r.classList.remove('selected')); // Bỏ chọn tất cả các dòng khác
+                row.classList.add('selected'); // Thêm lớp selected cho dòng được chọn
+                const maSach = row.cells[0].textContent; // Thay thế 0 bằng chỉ số cột mã sách
+                const slSach = row.cells[4].textContent;
+                document.getElementById('hidden-ma-sach').value = maSach;
+                document.getElementById('hidden-sl-sach').value = slSach;
+            });
+        });
+
+    });
+</script>
 </body>
 </html>
+
+

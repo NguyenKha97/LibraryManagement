@@ -13,7 +13,8 @@
             <!-- Rest of your content here -->
         </div>
         <h2>Trang Quản Lý Độc Giả</h2>
-        <form class="reader-form">
+        <form class="reader-form" method="post">
+            {% csrf_token %}
             <div class="input-row">
                 <label for="ma-doc-gia">Mã độc giả:</label>
                 <input type="text" id="ma-doc-gia" name="ma-doc-gia" required>
@@ -50,7 +51,7 @@
             </div>
 
             <div class="button-row">
-                <button type="button" class="add-btn">Thêm</button>
+                <button type="submit" name="button" value="them" class="add-btn">Thêm</button>
                 <button type="button" class="edit-btn">Sửa</button>
                 <button class="delete-btn" onclick="showConfirmDialog()">Xóa</button>
                 <button class="search-btn" onclick="showSearchDialog()">Tìm kiếm</button>
@@ -70,7 +71,17 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Dữ liệu độc giả sẽ được thêm vào đây sau khi thêm/sửa/xóa -->
+            {% for doc_gia in new_data %}
+            <tr>
+                <td>{{ doc_gia.ma_doc_gia }}</td>
+                <td>{{ doc_gia.ten_doc_gia }}</td>
+                <td>{{ doc_gia.ngay_sinh }}</td>
+                <td>{{ doc_gia.so_dien_thoai }}</td>
+                <td>{{ doc_gia.dia_chi }}</td>
+                <td>{{ doc_gia.ngay_tao_the }}</td>
+                <td>{{ doc_gia.ngay_het_han }}</td>
+            </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>

@@ -9,4 +9,3 @@ class Thuthu(models.Model):
 
     def __str__(self):
         return f'[{self.ma_thu_thu}, {self.ten_thu_thu}, {self.mat_khau}]'
-
