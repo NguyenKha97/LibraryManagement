@@ -1,32 +1,77 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Sach
+from .modules.inputForm import AddBook, UpdateBook
+from django.http import HttpResponse
+from django.db.models import Q
 # Create your views here.
 
 
 def quan_ly_sach_view(request):
-    if request.method == 'POST':
-        button = request.POST.get('button')
-        if button == 'them':
-            # Lấy dữ liệu từ form
-            ma_sach = request.POST.get('ma-sach')
-            ten_sach = request.POST.get('ten-sach')
-            tac_gia = request.POST.get('tac-gia')
-            nam_xuat_ban = request.POST.get('nam-xuat-ban')
-            loai_sach = request.POST.get('loai-sach')
-            so_luong = request.POST.get('so-luong')
-            # Thêm dữ liệu vào database (bảng DocGia)
-            sach = Sach(ma_sach=ma_sach,
-                        ten_sach=ten_sach,
-                        tac_gia=tac_gia,
-                        nam_xuat_ban=nam_xuat_ban,
-                        loai_sach=loai_sach,
-                        so_luong=so_luong)
-            sach.save()
+	books = Sach.objects.all()
+	addForm = AddBook()
+	updateForm = UpdateBook()
 
-            # Trả về thông báo khi thêm thành công (tùy chỉnh theo ý của bạn)
-            print("Đã thêm dữ liệu sách vào database thành công!")
-    data = Sach.objects.all()  # Hoặc bạn có thể thêm điều kiện lọc dữ liệu cụ thể tại đây
-    context = {
-        'new_data': data,
-    }
-    return render(request, 'quanLySach.html', context)
+	context = {
+		'books': books,
+		'addForm': addForm,
+		'updateForm': updateForm,
+	}
+	return render(request, 'quanLySach.html', context)
+
+def update_sach(request):
+	if request.method == 'POST':
+		ma_sach = request.POST.get('ma_sach')
+		sach = get_object_or_404(Sach, ma_sach=ma_sach)
+		updateForm = UpdateBook(request.POST, instance=sach)
+		try:
+			if updateForm.is_valid():
+				updateForm.save()
+			else:
+				print(updateForm.errors)
+		except not sach:
+			return HttpResponse("Sách không tồn tại")
+	return redirect('quan_ly_sach')
+
+def add_sach(request):
+	if request.method == 'POST':
+		addForm = AddBook(request.POST)
+		if addForm.is_valid():
+			addForm.save()
+		else:
+			print(addForm.errors)
+	return redirect('quan_ly_sach')
+
+def delete_sach(request):
+	if request.method == 'POST':
+		ma_sach = request.POST.get('ma_sach')
+		sach = Sach.objects.get(ma_sach=ma_sach)
+		print("delete::: " + str(sach))
+		sach.delete()
+
+	return redirect('quan_ly_sach')
+
+def search_sach(request):
+	addForm = AddBook()
+	updateForm = UpdateBook()
+	search_params = {
+		'ma_sach': request.GET.get('ma-sach'),
+		'ten_sach': request.GET.get('ten-sach'),
+		'loai_sach': request.GET.get('loai-sach'),
+		'ten_tac_gia': request.GET.get('tac-gia'),
+		'nam_xuat_ban': request.GET.get('nam-xuat-ban'),
+	}
+
+	q_objects = Q()
+
+	for field, value in search_params.items():
+		if value:
+			q_objects &= Q(**{field: value})
+
+	matched_books = Sach.objects.filter(q_objects)
+	print(q_objects)
+	context = {
+		'books': matched_books,
+		'addForm': addForm,
+		'updateForm': updateForm
+	}
+	return render(request, 'quanLySach.html', context)

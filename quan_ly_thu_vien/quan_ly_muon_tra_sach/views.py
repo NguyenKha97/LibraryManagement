@@ -63,7 +63,7 @@ def xu_ly_tim_sach(request, context, stored_doc_gia, stored_sach, stored_list_sa
                 'ten_sach': sach.ten_sach,
                 'the_loai': sach.loai_sach,
                 'so_luong_con': sach.so_luong_con,
-                'tac_gia': sach.tac_gia,
+                'ten_tac_gia': sach.ten_tac_gia,
                 'nam_xuat_ban': sach.nam_xuat_ban
             }
             context['sach'] = request.session.get('stored_sach')
@@ -115,7 +115,7 @@ def quan_ly_muon_sach_view(request):
             sach_muon = {
                 'ma_sach': stored_sach['ma_sach'],
                 'ten_sach': stored_sach['ten_sach'],
-                'tac_gia': stored_sach['tac_gia'],
+                'ten_tac_gia': stored_sach['ten_tac_gia'],
                 'nam_xuat_ban': stored_sach['nam_xuat_ban'],
                 'so_luong_muon': sl_sach_muon
             }

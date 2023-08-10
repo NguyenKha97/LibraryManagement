@@ -89,8 +89,7 @@ h2 {
 
 
 /* Định dạng nút xóa */
-.delete-btn {
-    margin-top: 10px;
+button.delete-btn {
     padding: 12px 24px; /* Kích thước nút */
     font-size: 18px; /* Cỡ chữ */
     border: none;
@@ -148,13 +147,11 @@ h2 {
 }
 
 .back-btn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 10px 15px;
-    font-size: 16px;
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Màu xanh lá cây */
     color: white;
+    margin: 0 5px;
+    padding: 12px 24px; /* Kích thước nút */
+    font-size: 18px; /* Cỡ chữ */
     border: none;
     cursor: pointer;
 }

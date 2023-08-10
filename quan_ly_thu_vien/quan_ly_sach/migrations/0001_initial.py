@@ -16,11 +16,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('ma_sach', models.CharField(max_length=10, unique=True)),
-                ('ten_sach', models.CharField(max_length=100)),
-                ('tac_gia', models.CharField(max_length=100)),
-                ('nam_xuat_ban', models.IntegerField()),
-                ('so_luong', models.IntegerField()),
-                ('loai_sach', models.CharField(max_length=50)),
+                ('ten_sach', models.CharField(max_length=200)),
+                ('ten_tac_gia', models.CharField(max_length=100)),
+                ('nam_xuat_ban', models.PositiveIntegerField()),
+                ('so_luong', models.PositiveIntegerField()),
+                ('loai_sach', models.CharField(choices=[('TRUYEN', 'Truyện'), ('KY_NANG', 'Kỹ năng'), ('KIEN_THUC', 'Kiến thức'), ('VAN_HOC', 'Văn học'), ('KHOA_HOC', 'Khoa học'), ('KHAC', 'Khác')], max_length=10)),
+
             ],
         ),
     ]
