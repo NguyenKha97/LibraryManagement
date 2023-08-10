@@ -24,13 +24,13 @@
                     <th>Tên tác giả</th>
                     <th>Loại sách</th>
                     <th>Năm xuất bản</th>
-                    <th>Số lượng</th>
+                    <th>Số lượng còn lại</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Dữ liệu sách sẽ được thêm vào đây sau khi thêm/sửa/xóa -->
                 {% for book in books %}
-                <tr data-ma_sach="{{ book.ma_sach }}" data-ten_sach="{{ book.ten_sach }}" data-ten_tac_gia="{{ book.ten_tac_gia }}" data-loai_sach="{{ book.loai_sach }}" data-nam_xuat_ban="{{ book.nam_xuat_ban }}" data-so_luong="{{ book.so_luong }}">
+                <tr data-ma_sach="{{ book.ma_sach }}" data-ten_sach="{{ book.ten_sach }}" data-ten_tac_gia="{{ book.ten_tac_gia }}" data-loai_sach="{{ book.loai_sach }}" data-nam_xuat_ban="{{ book.nam_xuat_ban }}" data-so_luong_con="{{ book.so_luong_con }}">
                     <td>{{ book.ma_sach }}</td>
                     <td>{{ book.ten_sach }}</td>
                     <td>{{ book.ten_tac_gia }}</td>
@@ -50,7 +50,7 @@
                         {% endif %}
                     </td>
                     <td>{{ book.nam_xuat_ban }}</td>
-                    <td>{{ book.so_luong }}</td>
+                    <td>{{ book.so_luong_con }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -186,7 +186,7 @@
                     form.querySelector("#ten_tac_gia").value = row.dataset.ten_tac_gia;
                     form.querySelector("#loai_sach").value = row.dataset.loai_sach;
                     form.querySelector("#nam_xuat_ban").value = row.dataset.nam_xuat_ban;
-                    form.querySelector("#so_luong").value = row.dataset.so_luong;
+                    form.querySelector("#so_luong_con").value = row.dataset.so_luong_con;
                     show('infoDialog')
                 });
             });

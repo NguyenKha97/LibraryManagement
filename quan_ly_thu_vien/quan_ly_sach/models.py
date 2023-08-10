@@ -6,7 +6,8 @@ class Sach(models.Model):
     ten_sach = models.CharField(max_length=200)
     ten_tac_gia = models.CharField(max_length=100)
     nam_xuat_ban = models.PositiveIntegerField()
-    so_luong = models.PositiveIntegerField()
+    so_luong_con = models.PositiveIntegerField()
+    so_luong_muon = models.PositiveIntegerField(default=0)
     LOAI_SACH_CHOICES = [
         ('TRUYEN', 'Truyện'),
         ('KY_NANG', 'Kỹ năng'),
@@ -18,4 +19,4 @@ class Sach(models.Model):
     loai_sach = models.CharField(max_length=10, choices=LOAI_SACH_CHOICES)
 
     def __str__(self):
-        return f'[{self.ma_sach}, {self.ten_sach}, {self.ten_tac_gia}, {self.nam_xuat_ban}, {self.so_luong}, {self.loai_sach}]'
+        return f'[{self.ma_sach}, {self.ten_sach}, {self.ten_tac_gia}, {self.nam_xuat_ban}, {self.so_luong_con}, {self.so_luong_muon}, {self.loai_sach}]'

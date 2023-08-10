@@ -8,19 +8,11 @@ def quan_ly_sach_view(request):
 	books = Sach.objects.all()
 	addForm = AddBook()
 	updateForm = UpdateBook()
-	stranCate = {
-		'TRUYEN': 'Truyện',
-		'KY_NANG': 'Kỹ năng',
-		'KIEN_THUC': 'Kiến thức',
-		'VAN_HOC': 'Văn học',
-		'KHOA_HOC': 'Khoa học',
-		'KHAC': 'Khác',
-	}
+
 	context = {
 		'books': books,
 		'addForm': addForm,
 		'updateForm': updateForm,
-		'stranCate': stranCate
 	}
 	return render(request, 'quanLySach.html', context)
 
