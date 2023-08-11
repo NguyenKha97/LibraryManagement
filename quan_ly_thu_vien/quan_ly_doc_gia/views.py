@@ -8,7 +8,9 @@ from django.db.models import Q
 
 # Create your views here.
 def quan_ly_doc_gia_view(request):
-
+	button = request.POST.get('button')
+	if button == 'back':
+		return redirect('menu')
 	readers = DocGia.objects.all()
 	addForm = AddDocGia()
 	updateForm = UpdateDocGia()

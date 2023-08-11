@@ -8,8 +8,10 @@
 </head>
 <body>
     <div class="container">
-        <button class="back-btn" onclick="goBack()">Back</button>
-
+        <form  method="post" action="{% url 'quan_ly_doc_gia' %}">
+            {% csrf_token %}
+        <button class="back-btn" name="button" value="back">Back</button>
+        </form>
         <h2>Trang Quản Lý Độc Giả</h2>
             <div class="button-row">
                 <button type="button" class="add-btn" onclick="show('addDialog')">Thêm</button>

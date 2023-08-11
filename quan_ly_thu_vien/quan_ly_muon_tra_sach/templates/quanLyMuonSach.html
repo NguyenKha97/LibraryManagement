@@ -96,7 +96,7 @@
 
         <div class="action-buttons">
             {% if doc_gia and list_sach_muon %}
-            <button class="muon-btn" name="button" value="muon">Mượn</button>
+            <button class="muon-btn" id="muon-btn" name="button" value="muon" style="display: none;">Mượn</button>
             {% endif %}
             <button class="huy-btn" name="button" value="huy">Hủy</button>
             {% if doc_gia and list_sach_muon%}
@@ -112,7 +112,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const rows = document.querySelectorAll('.danh-sach-muon-sach tbody tr');
-        //const xoaBtn = document.getElementById('xoa-btn'); // Lấy tham chiếu đến nút Xóa
+        const muonBtn = document.getElementById('muon-btn'); // Lấy tham chiếu đến nút Xóa
 
         rows.forEach(row => {
             row.addEventListener('click', function () {
@@ -123,6 +123,13 @@
                 const slSach = row.cells[4].textContent;
                 document.getElementById('hidden-ma-sach').value = maSach;
                 document.getElementById('hidden-sl-sach').value = slSach;
+
+                const selectedRows = document.querySelectorAll('.danh-sach-muon-sach tbody tr.selected');
+                if (selectedRows.length > 0) {
+                    muonBtn.style.display = 'block'; // Hiển thị nút Muon
+                } else {
+                    muonBtn.style.display = 'none'; // Ẩn nút Muon
+                }
             });
         });
 

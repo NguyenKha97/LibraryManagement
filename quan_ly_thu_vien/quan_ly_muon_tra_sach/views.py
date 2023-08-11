@@ -248,13 +248,14 @@ def quan_ly_tra_sach_view(request):
                 # Convert QuerySet to a list of dictionaries
                 data_muon_tra_list = []
                 for muon_tra in data_muon_tra:
-                    data_muon_tra_list.append({
-                        'ma_sach': muon_tra.ma_sach.ma_sach,
-                        'ma_doc_gia': muon_tra.ma_doc_gia.ma_doc_gia,
-                        'so_luong': muon_tra.so_luong,
-                        'ngay_muon': muon_tra.ngay_muon.strftime('%d-%m-%Y'),
-                        'ngay_hen_tra': muon_tra.ngay_hen_tra.strftime('%d-%m-%Y')
-                    })
+                    if not muon_tra.ngay_tra:
+                        data_muon_tra_list.append({
+                            'ma_sach': muon_tra.ma_sach.ma_sach,
+                            'ma_doc_gia': muon_tra.ma_doc_gia.ma_doc_gia,
+                            'so_luong': muon_tra.so_luong,
+                            'ngay_muon': muon_tra.ngay_muon.strftime('%d-%m-%Y'),
+                            'ngay_hen_tra': muon_tra.ngay_hen_tra.strftime('%d-%m-%Y')
+                        })
 
                 # Store the list in the session
                 request.session['stored_data_muon_tra'] = data_muon_tra_list
@@ -262,7 +263,7 @@ def quan_ly_tra_sach_view(request):
             except Sach.DoesNotExist:
                 print('Khong tim thay sach')
                 context['data_muon_tra'] = {}
-                request.session['stored_data_muon_tra'] = {}
+                request.session['stored_data_muon_tra'] = []
             if request.session.get('stored_doc_gia'):
                 context['doc_gia'] = request.session.get('stored_doc_gia')
                 context['data_doc_gia_muon_tra'] = request.session.get('stored_data_doc_gia_muon_tra')
@@ -326,6 +327,14 @@ def quan_ly_tra_sach_view(request):
                     sach.so_luong_muon -= int(so_luong)
                     sach.so_luong_con += int(so_luong)
                     sach.save()
+            # new_data_doc_gia_muon_tra_list = []
+            # for muon_tra in request.session.get('stored_data_doc_gia_muon_tra'):
+            #     if not muon_tra.ma_sach == ma_sach:
+            #         new_data_doc_gia_muon_tra_list.append(muon_tra)
+            # request.session['stored_data_doc_gia_muon_tra'] = new_data_doc_gia_muon_tra_list
+            # context['data_doc_gia_muon_tra'] = new_data_doc_gia_muon_tra_list
+            # context['doc_gia'] = request.session.get('stored_doc_gia')
+            # context['data_muon_tra'] = new_data_doc_gia_muon_tra_list
         elif button == 'huy':
             if 'stored_data_muon_tra' in request.session:
                 del request.session['stored_data_muon_tra']

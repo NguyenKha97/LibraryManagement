@@ -7,6 +7,9 @@ from django.db.models import Q
 
 
 def quan_ly_sach_view(request):
+	button = request.POST.get('button')
+	if button == 'back':
+		return redirect('menu')
 	books = Sach.objects.all()
 	addForm = AddBook()
 	updateForm = UpdateBook()
@@ -16,6 +19,10 @@ def quan_ly_sach_view(request):
 		'addForm': addForm,
 		'updateForm': updateForm,
 	}
+	button = request.POST.get('button')
+	if button == 'back':
+		return redirect('menu')
+
 	return render(request, 'quanLySach.html', context)
 
 def update_sach(request):
